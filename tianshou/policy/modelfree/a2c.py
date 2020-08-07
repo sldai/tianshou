@@ -92,6 +92,7 @@ class A2CPolicy(PGPolicy):
         else:
             dist = self.dist_fn(logits)
         act = dist.sample()
+        act = torch.tanh(act)
         return Batch(logits=logits, act=act, state=h, dist=dist)
 
     def learn(self, batch: Batch, batch_size: int, repeat: int,

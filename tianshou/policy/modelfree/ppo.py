@@ -114,7 +114,7 @@ class PPOPolicy(PGPolicy):
             dist = self.dist_fn(*logits)
         else:
             dist = self.dist_fn(logits)
-        act = dist.sample()
+        act = torch.tanh(dist.sample())
         if self._range:
             act = act.clamp(self._range[0], self._range[1])
         return Batch(logits=logits, act=act, state=h, dist=dist)

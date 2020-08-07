@@ -137,7 +137,7 @@ class DDPGPolicy(BasePolicy):
         logits, h = model(obs, state=state, info=batch.info)
         actions = torch.tanh(logits)
         if self.training and explorating:
-            actions += to_torch_as(self._noise(actions.shape), actions)
+            actions = actions + to_torch_as(self._noise(actions.shape), actions)
         
         actions = actions.clamp(self._range[0], self._range[1])
         return Batch(act=actions, state=h)
